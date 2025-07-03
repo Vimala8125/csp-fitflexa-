@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fitflexa Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <h1>🏋 Fitflexa</h1>
+      <button onclick="logout()" class="logout-btn">🚪 Logout</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Profile Section -->
+    <section class="profile-section">
+      <div class="card">
+        <h2>👤 Create Profile</h2>
+        <div class="profile-form">
+          <div class="form-row">
+            <input type="text" id="name" placeholder="Name" />
+            <input type="number" id="age" placeholder="Age" />
+          </div>
+          <div class="form-row">
+            <input type="number" id="weight" placeholder="Weight (kg)" />
+            <input type="number" id="height" placeholder="Height (cm)"/>
+          </div>
+          <div class="form-row">
+            <input type="text" id="healthIssues" placeholder="Any Health Issues"/>
+            <select id="goal">
+              <option value="">Select Goal</option>
+              <option value="Weight Loss">Weight Loss</option>
+              <option value="Muscle Gain">Muscle Gain</option>
+              <option value="Flexibility">Flexibility</option>
+            </select>
+          </div>
+          <button onclick="saveProfile()" class="save-btn">Save Profile</button>
+          <p id="profileMessage" class="message"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+      <button onclick="showSection('workout')" class="nav-btn active" data-section="workout">
+        🏃 <span>Workout Plan</span>
+      </button>
+      <button onclick="showSection('nutrition')" class="nav-btn" data-section="nutrition">
+        🥗 <span>Nutrition Plan</span>
+      </button>
+      <button onclick="showSection('community')" class="nav-btn" data-section="community">
+        💬 <span>Community Wall</span>
+      </button>
+      <button onclick="showSection('friends')" class="nav-btn" data-section="friends">
+        🤝 <span>Friends & Challenges</span>
+      </button>
+    </nav>
+
+    <!-- Workout Section -->
+    <div id="workout" class="section active">
+      <div class="card">
+        <h2>Start Your Fitness Routine</h2>
+        <p class="section-description">Choose a workout plan that matches your fitness goals</p>
+        <div class="workout-grid">
+          <div class="workout-card" onclick="openWorkoutModal('strength')">
+            <div class="workout-icon">💪</div>
+            <h3>Strength Training</h3>
+            <p>Build muscle and increase strength</p>
+            <button class="start-btn">Start Workout</button>
+          </div>
+          <div class="workout-card" onclick="openWorkoutModal('yoga')">
+            <div class="workout-icon">🧘</div>
+            <h3>Yoga</h3>
+            <p>Improve flexibility and mindfulness</p>
+            <button class="start-btn">Start Workout</button>
+          </div>
+          <div class="workout-card" onclick="openWorkoutModal('cardio')">
+            <div class="workout-icon">🏃</div>
+            <h3>Cardio</h3>
+            <p>Boost cardiovascular health</p>
+            <button class="start-btn">Start Workout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nutrition Section -->
+    <div id="nutrition" class="section">
+      <div class="card">
+        <h2>Nutrition Plan</h2>
+        <p class="section-description">Fuel your body with the right nutrition</p>
+        <div class="nutrition-grid">
+          <div class="nutrition-card" onclick="openNutritionModal('protein')">
+            <div class="nutrition-image">
+              <img src="./exercise/4..1.png" alt="High Protein Meal" loading="lazy">
+            </div>
+            <div class="nutrition-content">
+              <h3>🥗 High Protein Meal</h3>
+              <p>Perfect for muscle building and recovery</p>
+            </div>
+          </div>
+          <div class="nutrition-card" onclick="openNutritionModal('breakfast')">
+            <div class="nutrition-image">
+              <img src="./exercise/4..2.png" alt="Balanced Breakfast" loading="lazy">
+            </div>
+            <div class="nutrition-content">
+              <h3>🍌 Balanced Breakfast</h3>
+              <p>Start your day with energy and nutrients</p>
+            </div>
+          </div>
+          <div class="nutrition-card" onclick="openNutritionModal('detox')">
+            <div class="nutrition-image">
+              <img src="./exercise/4..3.png" alt="Detox Plan" loading="lazy">
+            </div>
+            <div class="nutrition-content">
+              <h3>🍲 Detox Plan</h3>
+              <p>Cleanse and reset your system</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Community Section -->
+    <div id="community" class="section">
+      <div class="card">
+        <h2>Community Wall</h2>
+        <p class="section-description">Share your progress and connect with others</p>
+        <div class="post-form">
+          <textarea id="newPost" placeholder="Share your progress..." rows="3"></textarea>
+          <button onclick="addPost()" class="post-btn">Post</button>
+        </div>
+        <div id="posts" class="posts-container"></div>
+      </div>
+    </div>
+
+    <!-- Friends Section -->
+    <div id="friends" class="section">
+      <div class="card">
+        <h2>Friends & Challenges</h2>
+        <p class="section-description">Connect with friends and join challenges</p>
+        <div class="friends-grid">
+          <div class="friend-card">
+            <div class="friend-info">
+              <h3>John</h3>
+              <p>Fitness enthusiast</p>
+            </div>
+            <button onclick="sendRequest('John')" class="add-friend-btn">Add Friend</button>
+          </div>
+          <div class="friend-card">
+            <div class="friend-info">
+              <h3>Emma</h3>
+              <p>Yoga instructor</p>
+            </div>
+            <button onclick="sendRequest('Emma')" class="add-friend-btn">Add Friend</button>
+          </div>
+        </div>
+        <p id="friendMessage" class="message"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Exercise Modal (for Strength & Yoga) -->
+  <div id="exerciseModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle"></h2>
+        <span class="close" onclick="closeModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p id="modalDescription"></p>
+        <div id="exerciseList" class="exercise-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cardio Overview Modal -->
+  <div id="cardioModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="cardioModalTitle"></h2>
+        <span class="close" onclick="closeCardioModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p id="cardioModalDescription"></p>
+        <div id="cardioImageGrid" class="cardio-image-grid"></div>
+        <div class="cardio-action-section">
+          <h3>Ready to Start Your Cardio Workout?</h3>
+          <p>Choose from our variety of cardio exercises to boost your cardiovascular health and burn calories effectively.</p>
+          <button onclick="openWorkoutModal('cardio'); closeCardioModal();" class="start-detailed-btn">
+            View Detailed Exercises
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Nutrition Modal -->
+  <div id="nutritionModal" class="modal">
+    <div class="modal-content nutrition-modal-content">
+      <div class="modal-header">
+        <h2 id="nutritionModalTitle"></h2>
+        <span class="close" onclick="closeNutritionModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="nutrition-modal-layout">
+          <div class="nutrition-modal-image">
+            <img id="nutritionModalImage" src="/placeholder.svg" alt="" loading="lazy">
+          </div>
+          <div class="nutrition-modal-description">
+            <p id="nutritionModalDescription"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
